@@ -43,7 +43,7 @@ class FriendshipsController < ApplicationController
             friends = Friendship.where(user: @user)
             render json: friends, status: :ok
         else
-            render json: {}, status: :not_found
+            render json: { "err": "user id #{params[:id]} not found" }, status: :not_found
         end
     end
 
@@ -52,7 +52,7 @@ class FriendshipsController < ApplicationController
             friends = Friendship.where(friend: @user)
             render json: friends, status: :ok
         else
-            render json: {}, status: :not_found
+            render json: { "err": "user id #{params[:id]} not found" }, status: :not_found
         end
     end
 
