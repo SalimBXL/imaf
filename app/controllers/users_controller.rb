@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-    before_action :find_user, only: [:show, :friends, :friend_of, :update, :destroy]
+    before_action :find_user, only: [:show, :update, :destroy]
 
 
     def index
@@ -10,24 +10,6 @@ class UsersController < ApplicationController
     def show
         if @user
             render json: @user, status: :ok
-        else
-            render json: {}, status: :not_found
-        end
-    end
-
-    def friends
-        if @user
-            friends = Friendship.where(user: @user)
-            render json: friends, status: :ok
-        else
-            render json: {}, status: :not_found
-        end
-    end
-
-    def friend_of
-        if @user
-            friends = Friendship.where(friend: @user)
-            render json: friends, status: :ok
         else
             render json: {}, status: :not_found
         end

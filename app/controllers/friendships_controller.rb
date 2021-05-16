@@ -1,5 +1,6 @@
 class FriendshipsController < ApplicationController
-    before_action :find_friendship, only: [:show, :friends, :update, :destroy]
+    before_action :find_friendship, only: [:show, :update, :destroy]
+    before_action :find_user, only: [:friends, :friend_of]
 
 
     def index
@@ -10,15 +11,6 @@ class FriendshipsController < ApplicationController
     def show
         if @friendship
             render json: @friendship, status: :ok
-        else
-            render json: {}, status: :not_found
-        end
-    end
-
-    def friends
-        if @friendship
-            friends = Friendship.where(friendship: @friendship)
-            render json: friends, status: :ok
         else
             render json: {}, status: :not_found
         end
@@ -46,6 +38,24 @@ class FriendshipsController < ApplicationController
         render json: {}, status: :ok
     end
 
+    def friends
+        if @user
+            friends = Friendship.where(user: @user)
+            render json: friends, status: :ok
+        else
+            render json: {}, status: :not_found
+        end
+    end
+
+    def friend_of
+        if @user
+            friends = Friendship.where(friend: @user)
+            render json: friends, status: :ok
+        else
+            render json: {}, status: :not_found
+        end
+    end
+
     private
 
         def friendship_params
@@ -54,5 +64,9 @@ class FriendshipsController < ApplicationController
 
         def find_friendship
             @friendship = Friendship.find_by_id(params[:id])
+        end
+
+        def find_user
+            @user = User.find_by_id(params[:id])
         end
   end
