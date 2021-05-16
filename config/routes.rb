@@ -10,6 +10,6 @@ Rails.application.routes.draw do
   post "/friendships", to: "friendships#create"
   patch "/friendships/:id", to: "friendships#update"
 
-  get "/users/:id/friends", to: "friendships#friends"
+  get "/users/:id/friendships", to: "friendships#friends"
   get "/users/:id/friend_of", to: "friendships#friend_of"
 end
