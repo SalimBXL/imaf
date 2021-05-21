@@ -40,9 +40,29 @@ class FriendshipsController < ApplicationController
 
     def friends
         if @user
-            friends = Friendship.where(user: @user)
-            render json: friends, status: :ok
-            # render json: {
+            _friendships = Friendship.where(user: @user)
+            friendships = Array.new
+            _friendships.each do |friendship|
+                friendships <<  { 
+                    "id": friendship.id,
+                    "friend": {
+                        "id": friendship.friend_id,
+                        "username": friendship.friend.username,
+                        "email": friendship.friend.email,
+                        "updated_at": friendship.friend.updated_at,
+                    },
+                    "activities": friendship.activities.upcase.split(" "),
+                    "updated_at": friendship.updated_at,
+                }
+            end            
+            render json: { 
+                "user": {
+                    "id": @user.id,
+                    "username": @user.username,
+                    "updated_at": @user.updated_at,
+                },
+                "friendships": friendships
+            }, status: :ok
             #     "user": {
             #         "id": @user.id, 
             #         "username": @user.username
