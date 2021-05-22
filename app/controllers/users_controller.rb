@@ -9,7 +9,31 @@ class UsersController < ApplicationController
 
     def show
         if @user
-            render json: @user, status: :ok
+            activities = Activity.where(user: @user).first
+            _friendships = Friendship.where(user: @user)
+            friendships = Array.new
+            _friendships.each do |friendship|
+                friendships <<  { 
+                    "id": friendship.id,
+                    "friend": {
+                        "id": friendship.friend_id,
+                        "username": friendship.friend.username,
+                        "email": friendship.friend.email,
+                        "updated_at": friendship.friend.updated_at,
+                    },
+                    "activities": friendship.activities.upcase.split(" "),
+                    "updated_at": friendship.updated_at,
+                }
+            end            
+            render json: { 
+                "user": {
+                    "id": @user.id,
+                    "username": @user.username,
+                    "updated_at": @user.updated_at,
+                },
+                "friendships": friendships,
+                "activities": activities ? activities.activities.upcase.split(" ") : [],
+            }, status: :ok
         else
             render json: {}, status: :not_found
         end

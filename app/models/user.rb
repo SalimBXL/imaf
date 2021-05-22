@@ -11,5 +11,6 @@ class User < ApplicationRecord
     validates :email, confirmation: true
 
     has_many :friendships
+    has_many :activities
     has_many :friends, through: :friendships
 end
