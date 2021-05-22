@@ -13,12 +13,15 @@ class UsersController < ApplicationController
             _friendships = Friendship.where(user: @user)
             friendships = Array.new
             _friendships.each do |friendship|
+                friend_activities = Activity.where(user: friendship.friend_id).first
+
                 friendships <<  { 
                     "id": friendship.id,
                     "friend": {
                         "id": friendship.friend_id,
                         "username": friendship.friend.username,
                         "email": friendship.friend.email,
+                        "friend_activities": friend_activities ? friend_activities.activities.upcase.split(" ") : [],
                         "updated_at": friendship.friend.updated_at,
                     },
                     "activities": friendship.activities.upcase.split(" "),
