@@ -5,12 +5,12 @@ Rails.application.routes.draw do
   post "/activities", to: "activities#create"
   patch "/activities/:id", to: "activities#update"
 
-  #get "/users", to: "users#index"
+  get "/users", to: "users#index"
   get "/users/:id", to: "users#show"
   post "/users", to: "users#create"
   patch "/users/:id", to: "users#update"
 
-  #get "/friendships", to: "friendships#index"
+  get "/friendships", to: "friendships#index"
   #get "/friendships/:id", to: "friendships#show"
   post "/friendships", to: "friendships#create"
   patch "/friendships/:id", to: "friendships#update"
